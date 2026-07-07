@@ -23,9 +23,29 @@ def render_dashboard_markdown(report: DashboardReport) -> str:
         "",
         f"Artifacts: **{report.artifact_count}**",
         "",
-        "| Artifact | Status | Items | Source |",
-        "|----------|--------|-------|--------|",
+        "## Summary",
+        "",
+        f"- Success: {report.summary['success']}",
+        f"- Failed: {report.summary['failed']}",
+        f"- Warning: {report.summary['warning']}",
+        f"- Unknown: {report.summary['unknown']}",
+        "",
+        "## Artifact Types",
+        "",
     ]
+
+    for artifact_type, count in report.artifact_types.items():
+        lines.append(f"- {artifact_type}: {count}")
+
+    lines.extend(
+        [
+            "",
+            "## Artifacts",
+            "",
+            "| Artifact | Status | Items | Source |",
+            "|----------|--------|-------|--------|",
+        ]
+    )
 
     for artifact in report.artifacts:
         lines.append(

@@ -18,6 +18,8 @@ class DashboardReport:
     report_id: str
     generated_at: str
     artifact_count: int
+    summary: dict[str, int]
+    artifact_types: dict[str, int]
     artifacts: list[ArtifactSummary]
 
 
@@ -49,6 +51,42 @@ def build_artifact_summary(
     )
 
 
+def build_dashboard_status_summary(
+    artifacts: list[ArtifactSummary],
+) -> dict[str, int]:
+    result = {
+        "success": 0,
+        "failed": 0,
+        "warning": 0,
+        "unknown": 0,
+    }
+
+    for artifact in artifacts:
+        status = artifact.status.upper()
+
+        if status in {"SUCCESS", "DELIVERED", "RECORDED"}:
+            result["success"] += 1
+        elif status in {"FAILED", "ERROR"}:
+            result["failed"] += 1
+        elif status in {"WARNING", "WARN"}:
+            result["warning"] += 1
+        else:
+            result["unknown"] += 1
+
+    return result
+
+
+def build_artifact_type_stats(
+    artifacts: list[ArtifactSummary],
+) -> dict[str, int]:
+    result: dict[str, int] = {}
+
+    for artifact in artifacts:
+        result[artifact.artifact_type] = result.get(artifact.artifact_type, 0) + 1
+
+    return result
+
+
 def build_dashboard_report(
     *,
     report_id: str,
@@ -58,5 +96,7 @@ def build_dashboard_report(
         report_id=report_id,
         generated_at=datetime.now(timezone.utc).isoformat(),
         artifact_count=len(artifacts),
+        summary=build_dashboard_status_summary(artifacts),
+        artifact_types=build_artifact_type_stats(artifacts),
         artifacts=artifacts,
     )

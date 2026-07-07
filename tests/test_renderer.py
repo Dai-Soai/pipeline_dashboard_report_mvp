@@ -2,7 +2,6 @@ from pipeline_dashboard_report.contract import (
     build_artifact_summary,
     build_dashboard_report,
 )
-
 from pipeline_dashboard_report.renderer import (
     render_dashboard_json,
     render_dashboard_markdown,
@@ -43,3 +42,5 @@ def test_render_dashboard_markdown():
     assert "# Pipeline Dashboard Report" in output
     assert "dashboard-001" in output
     assert "delivery_report" in output
+    assert "Summary" in output
+    assert "Artifact Types" in output

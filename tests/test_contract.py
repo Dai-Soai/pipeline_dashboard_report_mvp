@@ -2,7 +2,9 @@ import pytest
 
 from pipeline_dashboard_report.contract import (
     build_artifact_summary,
+    build_artifact_type_stats,
     build_dashboard_report,
+    build_dashboard_status_summary,
 )
 
 
@@ -46,6 +48,7 @@ def test_build_artifact_summary_rejects_missing_artifact_type():
 def test_build_dashboard_report_success():
     artifact = {
         "artifact_type": "delivery_report",
+        "status": "SUCCESS",
         "summary": {
             "total": 2,
         },
@@ -63,5 +66,7 @@ def test_build_dashboard_report_success():
 
     assert report.report_id == "dashboard-001"
     assert report.artifact_count == 1
+    assert report.summary["success"] == 1
+    assert report.summary["unknown"] == 0
     assert report.artifacts[0].artifact_type == "delivery_report"
     assert report.generated_at
