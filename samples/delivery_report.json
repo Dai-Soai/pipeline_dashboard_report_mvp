@@ -1,0 +1,9 @@
+{
+  "artifact_type": "delivery_report",
+  "version": "0.1.0",
+  "summary": {
+    "total": 2,
+    "delivered": 2,
+    "failed": 0
+  }
+}
