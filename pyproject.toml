@@ -1,0 +1,12 @@
+[project]
+name = "pipeline-dashboard-report"
+version = "0.1.0"
+description = "RADAR Service Utility #23 - Pipeline Dashboard Report MVP"
+requires-python = ">=3.10"
+
+[project.scripts]
+pipeline-dashboard-report = "pipeline_dashboard_report.cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
