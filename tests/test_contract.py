@@ -2,9 +2,7 @@ import pytest
 
 from pipeline_dashboard_report.contract import (
     build_artifact_summary,
-    build_artifact_type_stats,
     build_dashboard_report,
-    build_dashboard_status_summary,
 )
 
 
